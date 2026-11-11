@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.2] - V3.9 Autothrottle Port
+
+- Restore the V3.9 native-style A/THR bar, KTS/Mach controls, landing arming switch, and PID controller.
+- Adapt initialization, throttle output, and frame timing for GeoFS V4.
+- Experimental: V4 flight and landing testing is pending.
+
 ## [0.1.1] - Autopilot Bar
 
 - Place A/THR and its KIAS controls in the GeoFS autopilot bar.
