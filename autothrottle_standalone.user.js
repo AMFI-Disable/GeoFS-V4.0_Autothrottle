@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GeoFS-V4.0_Autothrottle
 // @namespace    https://greasyfork.org/users/1594049
-// @version      0.1.2
+// @version      0.1.3
 // @description  Experimental V4 port of the V3.9 native-style PID autothrottle.
 // @author       AMFI-Disable
 // @icon         https://www.geo-fs.com/images/icons/favicon.ico
@@ -41,7 +41,7 @@
                         </div>
                         <div class="ext-autothrottle-controls" style="display: none;">
                             <div class="ext-autothrottle-control" style="position: relative;">
-                                <div id="V39-at-rev" style="display: none; font-size: 8px; color: #ef4444; font-weight: 900; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); letter-spacing: 1px; text-shadow: 0 0 5px #ef4444;">[REV]</div>
+                                <div id="V40-at-rev" style="display: none; font-size: 8px; color: #ef4444; font-weight: 900; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); letter-spacing: 1px; text-shadow: 0 0 5px #ef4444;">[REV]</div>
                                 <a class="ext-autothrottle-numberDown numberDown ext-autothrottle-control">-</a><input class="ext-autothrottle-numberValue numberValue ext-autothrottle-speed" min="0" smallstep="5" stepthreshold="100" step="10" data-method="setSpeed" maxlength="4" max="9999" value="0"><a class="ext-autothrottle-numberUp numberUp">+</a>
                                 <span class="ext-autothrottle-switch ext-autothrottle-speedMode">
                                     <a class="ext-autothrottle-switchLeft switchLeft green-pad" data-method="setAutothrottleSpeedMode" value="knots" id="knotsMode">KTS</a>
@@ -141,10 +141,10 @@
                     geofs.autopilot.setSpeed(targetVal);
                     $input.val(isMach ? targetVal.toFixed(6) : Math.round(targetVal));
                     
-                    if (window.GeoFSV4Core) {
-                        GeoFSV4Core.notify(`🛫 Autothrottle Engaged - Holding ${targetVal.toFixed(isMach ? 2 : 0)} ${isMach ? 'Mach' : 'Knots'}`);
+                    if (window.V40_NOTIF) {
+                        V40_NOTIF.show(`🛫 Autothrottle Engaged - Holding ${targetVal.toFixed(isMach ? 2 : 0)} ${isMach ? 'Mach' : 'Knots'}`);
                     }
-                    document.dispatchEvent(new CustomEvent('V39_autothrottleStateChanged', { detail: { active: !0 } }));
+                    document.dispatchEvent(new CustomEvent('V40_autothrottleStateChanged', { detail: { active: !0 } }));
                 });
 
                 // Triggered when the system is disengaged.
@@ -159,7 +159,7 @@
                     
                     if (geofs.autothrottle.opSyncActive) {
                         geofs.autothrottle.opSyncActive = false;
-                        document.dispatchEvent(new CustomEvent('V39_opSyncStateChanged', { detail: { active: false } }));
+                        document.dispatchEvent(new CustomEvent('V40_opSyncStateChanged', { detail: { active: false } }));
                         
                         if (globalThis.isThrustActive && window.toggleThrustMode) {
                             window.toggleThrustMode();
@@ -177,7 +177,7 @@
                     }
 
                     // Remove REV visual indicator in case it was active during disengagement
-                    $("#V39-at-rev").hide();
+                    $("#V40-at-rev").hide();
                     // Reset our tracking values to prevent spikes on subsequent engagements
                     geofs.autothrottle._tickTime = null;
                     geofs.autothrottle._lastFrameTime = null;
@@ -187,10 +187,10 @@
                     geofs.autopilot.setSpeedMode(geofs.autopilot.speedMode);
                     geofs.autothrottle.on = !1;
                     
-                    if (window.GeoFSV4Core) {
-                        GeoFSV4Core.notify("🛬 Autothrottle Disengaged - Control Returned to Pilot");
+                    if (window.V40_NOTIF) {
+                        V40_NOTIF.show("🛬 Autothrottle Disengaged - Control Returned to Pilot");
                     }
-                    document.dispatchEvent(new CustomEvent('V39_autothrottleStateChanged', { detail: { active: !1 } }));
+                    document.dispatchEvent(new CustomEvent('V40_autothrottleStateChanged', { detail: { active: !1 } }));
                 });
 
                 // Safety: Automatically disengage if the main Autopilot is turned on.
@@ -365,7 +365,7 @@
                 if (!geofs.autothrottle.on) {
                     // Electrical System Dependency: Block engagement if no power.
                     if (window.failureSimulator?.fails?.electrical) {
-                        if (window.GeoFSV4Core) GeoFSV4Core.notify("⚡ AUTOTHROTTLE OFFLINE - NO ELECTRICAL POWER");
+                        if (window.V40_NOTIF) V40_NOTIF.show("⚡ AUTOTHROTTLE OFFLINE - NO ELECTRICAL POWER");
                         return;
                     }
 
@@ -416,14 +416,14 @@
                         geofs.autothrottle._origReverse = geofs.aircraft.instance.definition.reverse;
                         geofs.aircraft.instance.definition.reverse = true;
                     }
-                    $("#V39-at-rev").show();
+                    $("#V40-at-rev").show();
                 } else if (f <= e * 1.05 && geofs.autothrottle.reverseEngaged) {
                     geofs.autothrottle.reverseEngaged = false;
                     // Restore original reverse property of aircraft definition
                     if (geofs.aircraft.instance.definition && geofs.autothrottle._origReverse !== undefined) {
                         geofs.aircraft.instance.definition.reverse = geofs.autothrottle._origReverse;
                     }
-                    $("#V39-at-rev").hide();
+                    $("#V40-at-rev").hide();
                 }
 
                 /**
@@ -437,7 +437,7 @@
                     // Auto-activate OP Engines if target speed exceeds physical aircraft limits
                     if (!globalThis.isThrustActive && window.toggleThrustMode) {
                         window.toggleThrustMode();
-                        if (window.GeoFSV4Core) GeoFSV4Core.notify(`🚀 Physical limit (${OP_LIMIT_KNOTS}kts) exceeded. OP Engines engaged.`);
+                        if (window.V40_NOTIF) V40_NOTIF.show(`🚀 Physical limit (${OP_LIMIT_KNOTS}kts) exceeded. OP Engines engaged.`);
                     }
                     
                     // Auto-activate Ceiling Bypass to handle extreme high-altitude atmospheric heights
@@ -447,7 +447,7 @@
                     
                     if (!geofs.autothrottle.opSyncActive) {
                         geofs.autothrottle.opSyncActive = true;
-                        document.dispatchEvent(new CustomEvent('V39_opSyncStateChanged', { detail: { active: true } }));
+                        document.dispatchEvent(new CustomEvent('V40_opSyncStateChanged', { detail: { active: true } }));
                     }
                     
                     if (globalThis.isThrustActive) {
@@ -469,18 +469,18 @@
                         window.opMultiplier = clamp(window.opMultiplier, 1, 1000000000);
                         
                         // Broadcast live updates to sync the Overpowered Engines UI
-                        document.dispatchEvent(new CustomEvent('V39_opMultiplierUpdated', { detail: { value: window.opMultiplier } }));
+                        document.dispatchEvent(new CustomEvent('V40_opMultiplierUpdated', { detail: { value: window.opMultiplier } }));
                     }
                 } else {
                     // Target is achievable within standard flight envelope
                     if (geofs.autothrottle.opSyncActive) {
                         geofs.autothrottle.opSyncActive = false;
-                        document.dispatchEvent(new CustomEvent('V39_opSyncStateChanged', { detail: { active: false } }));
+                        document.dispatchEvent(new CustomEvent('V40_opSyncStateChanged', { detail: { active: false } }));
                         
                         // Gracefully relinquish control and disable overpowered engines
                         if (globalThis.isThrustActive && window.toggleThrustMode) {
                              window.toggleThrustMode();
-                             if (window.GeoFSV4Core) GeoFSV4Core.notify("🛬 Returned to standard flight envelope. OP Engines disengaged.");
+                             if (window.V40_NOTIF) V40_NOTIF.show("🛬 Returned to standard flight envelope. OP Engines disengaged.");
                         }
                         
                         // Restore standard atmospheric limits
@@ -559,7 +559,7 @@
                 if (geofs.autothrottle.on) {
                     // Electrical System Dependency: Immediate emergency cut if power is lost.
                     if (window.failureSimulator?.fails?.electrical) {
-                        if (window.GeoFSV4Core) GeoFSV4Core.notify("⚡ AUTOTHROTTLE DISENGAGED - ELECTRICAL FAILURE");
+                        if (window.V40_NOTIF) V40_NOTIF.show("⚡ AUTOTHROTTLE DISENGAGED - ELECTRICAL FAILURE");
                         $(document).trigger("autothrottleOff");
                         return;
                     }
@@ -587,7 +587,7 @@
              */
             handleError: (a) => {
                 console.error(a);
-                if (window.GeoFSV4Core) window.GeoFSV4Core.notify('Autothrottle error: disabled. Check the console for details.', 'error');
+                if (window.V40_NOTIF) window.V40_NOTIF.critical('Autothrottle error: disabled. Check the console for details.');
                 else ui.notification.show('Autothrottle error: disabled. Check the console for details.');
                 geofs.debug.log("meatbroc autothrottle error");
                 geofs.api.removeFrameCallback(geofs.autothrottle.callbackID);
@@ -659,13 +659,13 @@
             $input.attr(isMach ? geofs.autothrottle._machSpeedAttributes : geofs.autothrottle._ktsSpeedAttributes);
             $input.val(isMach ? currentTarget.toFixed(6) : Math.round(currentTarget)); // Increased precision to maintain exact user values
 
-            if (window.GeoFSV4Core) {
-                GeoFSV4Core.notify(`🔄 Speed Mode Switched to ${isMach ? 'Mach' : 'Knots'} (${currentTarget.toFixed(isMach ? 2 : 0)} ${isMach ? 'M' : 'kts'})`);
+            if (window.V40_NOTIF) {
+                V40_NOTIF.show(`🔄 Speed Mode Switched to ${isMach ? 'Mach' : 'Knots'} (${currentTarget.toFixed(isMach ? 2 : 0)} ${isMach ? 'M' : 'kts'})`);
             }
         }
 
-        if (window.GeoFSV4Core) {
-            window.GeoFSV4Core.notify("GeoFS-V4.0_Autothrottle v0.1.2 Loaded.");
+        if (window.V40_NOTIF) {
+            window.V40_NOTIF.show("GeoFS-V4.0_Autothrottle v0.1.3 Loaded.");
         }
         console.log("[GeoFS-V4.0_Autothrottle] >> Autothrottle System Initialized.");
     }

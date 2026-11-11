@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.3] - V4 Foundation Integration
+
+- Use V4 ecosystem event and notification names.
+
+
 ## [0.1.2] - V3.9 Autothrottle Port
 
 - Restore the V3.9 native-style A/THR bar, KTS/Mach controls, landing arming switch, and PID controller.
