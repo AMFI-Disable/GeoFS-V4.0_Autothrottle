@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased - V4 compatibility fixes
+## [0.1.4] - V4 compatibility fixes
 
 - Restores the pilot’s OP Engines settings and multiplier when automatic synchronization ends.
 
