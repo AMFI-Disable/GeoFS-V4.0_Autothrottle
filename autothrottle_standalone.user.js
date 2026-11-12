@@ -17,6 +17,22 @@
     'use strict';
     if (!window.GeoFSV4Core || !window.GeoFSV4Design) { console.error('[GeoFS-V4.0_Autothrottle] Missing dependency'); return; }
     function main () {
+        let previousOpState = null;
+        function releaseOpSync() {
+            if (!geofs.autothrottle.opSyncActive) return;
+            geofs.autothrottle.opSyncActive = false;
+            document.dispatchEvent(new CustomEvent('V40_opSyncStateChanged', { detail: { active: false } }));
+            if (!previousOpState) return;
+            if (Number.isFinite(previousOpState.multiplier)) {
+                window.opMultiplier = previousOpState.multiplier;
+                document.dispatchEvent(new CustomEvent('V40_opMultiplierUpdated', { detail: { value: window.opMultiplier } }));
+            }
+            if (!previousOpState.thrust && globalThis.isThrustActive && window.toggleThrustMode) {
+                window.toggleThrustMode();
+            }
+            if (!previousOpState.ceiling && globalThis.isCeilingActive && window.toggleCeilingMode) window.toggleCeilingMode();
+            previousOpState = null;
+        }
         geofs.autothrottle = {
             on: !1,
 
@@ -157,18 +173,8 @@
                         $("#autothrottle-button").removeClass("red-pad");
                     }, 3000);
                     
-                    if (geofs.autothrottle.opSyncActive) {
-                        geofs.autothrottle.opSyncActive = false;
-                        document.dispatchEvent(new CustomEvent('V40_opSyncStateChanged', { detail: { active: false } }));
-                        
-                        if (globalThis.isThrustActive && window.toggleThrustMode) {
-                            window.toggleThrustMode();
-                        }
-                        if (globalThis.isCeilingActive && window.toggleCeilingMode) {
-                            window.toggleCeilingMode();
-                        }
-                    }
-                    
+                    releaseOpSync();
+
                     if (geofs.autothrottle.reverseEngaged) {
                         geofs.autothrottle.reverseEngaged = false;
                         if (geofs.aircraft.instance.definition && geofs.autothrottle._origReverse !== undefined) {
@@ -429,11 +435,15 @@
                 /**
                  * --- 2. [Integration] Seamless OP Engines Bridge ---
                  */
-                const mass = geofs.aircraft.instance.setup.mass || 1000; // Default to 1 ton if missing
+                const mass = geofs.aircraft.instance.setup?.mass || 1000; // Default to 1 ton if missing
                 const OP_LIMIT_KNOTS = (mass < 10000) ? 200 : 500;
                 
                 // Keep OP Engines engaged if targeting supersonic, OR if air-braking from supersonic
                 if (e > OP_LIMIT_KNOTS || (geofs.autothrottle.reverseEngaged && f > OP_LIMIT_KNOTS)) {
+                    // Preserve the pilot's settings before automatic management begins.
+                    if (!geofs.autothrottle.opSyncActive && (window.toggleThrustMode || window.toggleCeilingMode)) {
+                        previousOpState = { thrust: !!globalThis.isThrustActive, ceiling: !!globalThis.isCeilingActive, multiplier: window.opMultiplier };
+                    }
                     // Auto-activate OP Engines if target speed exceeds physical aircraft limits
                     if (!globalThis.isThrustActive && window.toggleThrustMode) {
                         window.toggleThrustMode();
@@ -472,22 +482,8 @@
                         document.dispatchEvent(new CustomEvent('V40_opMultiplierUpdated', { detail: { value: window.opMultiplier } }));
                     }
                 } else {
-                    // Target is achievable within standard flight envelope
-                    if (geofs.autothrottle.opSyncActive) {
-                        geofs.autothrottle.opSyncActive = false;
-                        document.dispatchEvent(new CustomEvent('V40_opSyncStateChanged', { detail: { active: false } }));
-                        
-                        // Gracefully relinquish control and disable overpowered engines
-                        if (globalThis.isThrustActive && window.toggleThrustMode) {
-                             window.toggleThrustMode();
-                             if (window.V40_NOTIF) V40_NOTIF.show("🛬 Returned to standard flight envelope. OP Engines disengaged.");
-                        }
-                        
-                        // Restore standard atmospheric limits
-                        if (globalThis.isCeilingActive && window.toggleCeilingMode) {
-                             window.toggleCeilingMode();
-                        }
-                    }
+                    // Restore the pilot's settings when automatic management ends.
+                    releaseOpSync();
                 }
 
                 const mult = (globalThis.isThrustActive && window.opMultiplier) ? window.opMultiplier : 1.0;

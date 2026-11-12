@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased - V4 compatibility fixes
+
+- Restores the pilot’s OP Engines settings and multiplier when automatic synchronization ends.
+
 ## [0.1.3] - V4 Foundation Integration
 
 - Use V4 ecosystem event and notification names.
