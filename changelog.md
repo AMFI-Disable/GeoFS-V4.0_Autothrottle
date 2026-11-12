@@ -5,14 +5,13 @@
 - Synchronizes available multi-engine throttle channels during control and landing retard.
 - Live GeoFS V4 validation is pending.
 
-## [0.1.4] - V4 compatibility fixes
+## [0.1.4] - V4 Compatibility Fixes
 
 - Restores the pilot’s OP Engines settings and multiplier when automatic synchronization ends.
 
 ## [0.1.3] - V4 Foundation Integration
 
 - Use V4 ecosystem event and notification names.
-
 
 ## [0.1.2] - V3.9 Autothrottle Port
 
