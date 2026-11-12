@@ -7,3 +7,7 @@ Install with a userscript manager and reload GeoFS 4.0 Beta. Core Library and De
 **Version 0.1.4 is unstable and has not been flight-tested on GeoFS V4.** Controller response, landing behavior, and compatibility with other scripts need live validation.
 
 [MIT](license) · © 2026 AMFI-Disable
+
+## Latest Experimental Update
+
+Synchronizes available multi-engine throttle channels during control and landing retard. This version targets GeoFS V4; in-simulator validation is pending.

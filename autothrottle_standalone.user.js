@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GeoFS-V4.0_Autothrottle
 // @namespace    https://greasyfork.org/users/1594049
-// @version      0.1.4
+// @version      0.1.5
 // @description  Experimental V4 port of the V3.9 native-style PID autothrottle.
 // @author       AMFI-Disable
 // @icon         https://www.geo-fs.com/images/icons/favicon.ico

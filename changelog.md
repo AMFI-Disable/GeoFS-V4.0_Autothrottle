@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.5] - V4 Integration Update
+
+- Synchronizes available multi-engine throttle channels during control and landing retard.
+- Live GeoFS V4 validation is pending.
+
 ## [0.1.4] - V4 compatibility fixes
 
 - Restores the pilot’s OP Engines settings and multiplier when automatic synchronization ends.
