@@ -540,11 +540,16 @@
                      throttleCmd *= (100 / currentAccel); // Proportional cut to maintain exactly 100 kts/sec
                 }
 
-                if (geofs.autothrottle.reverseEngaged) {
-                     controls.manipulatorSetters.setThrottle(clamp(-throttleCmd * damping, -1, 0)); // Apply negative throttle for reverse thrust
-                } else {
-                     controls.manipulatorSetters.setThrottle(clamp(throttleCmd * damping, 0, 1));
-                }
+                const targetVal = geofs.autothrottle.reverseEngaged ? 
+                     clamp(-throttleCmd * damping, -1, 0) : 
+                     clamp(throttleCmd * damping, 0, 1);
+                controls.manipulatorSetters.setThrottle(targetVal);
+                if (controls.throttleLeft !== undefined) controls.throttleLeft = targetVal;
+                if (controls.throttleRight !== undefined) controls.throttleRight = targetVal;
+                if (controls.throttle1 !== undefined) controls.throttle1 = targetVal;
+                if (controls.throttle2 !== undefined) controls.throttle2 = targetVal;
+                if (controls.throttle3 !== undefined) controls.throttle3 = targetVal;
+                if (controls.throttle4 !== undefined) controls.throttle4 = targetVal;
             },
             /**
              * Tick Orchestrator & Safety Guard
@@ -563,6 +568,12 @@
                     // Touchdown Guard: Immediate engine cut upon ground contact if ARMED
                     if (geofs.aircraft.instance.groundContact && geofs.autothrottle.armed) {
                         controls.manipulatorSetters.setThrottle(0);
+                        if (controls.throttleLeft !== undefined) controls.throttleLeft = 0;
+                        if (controls.throttleRight !== undefined) controls.throttleRight = 0;
+                        if (controls.throttle1 !== undefined) controls.throttle1 = 0;
+                        if (controls.throttle2 !== undefined) controls.throttle2 = 0;
+                        if (controls.throttle3 !== undefined) controls.throttle3 = 0;
+                        if (controls.throttle4 !== undefined) controls.throttle4 = 0;
                         $(document).trigger("autothrottleOff");
                         return;
                     }
