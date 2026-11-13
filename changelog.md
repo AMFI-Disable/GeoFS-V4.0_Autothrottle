@@ -1,8 +1,16 @@
 # Changelog
 
-## [0.1.6] - Standalone Error Handling
+All notable changes, features, and architectural capabilities of this project are documented in this file.
 
-- Make throttle limits independent of the Landing Statistics script and use the shared notification API safely.
+---
+
+## [Unreleased]
+
+### Fixed
+
+- **Standalone Error Handling**: Made throttle limits independent of the Landing Statistics script by introducing local clamping logic and ensured safe execution with the shared notification API (`window.V40_NOTIF.show`).
+
+---
 
 ## [0.1.5] - V4 Integration Update
 
