@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.6] - Standalone Error Handling
+
+- Make throttle limits independent of the Landing Statistics script and use the shared notification API safely.
+
 ## [0.1.5] - V4 Integration Update
 
 - Synchronizes available multi-engine throttle channels during control and landing retard.

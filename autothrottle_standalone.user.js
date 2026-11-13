@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GeoFS-V4.0_Autothrottle
 // @namespace    https://greasyfork.org/users/1594049
-// @version      0.1.5
+// @version      0.1.6
 // @description  Experimental V4 port of the V3.9 native-style PID autothrottle.
 // @author       AMFI-Disable
 // @icon         https://www.geo-fs.com/images/icons/favicon.ico
@@ -17,6 +17,7 @@
     'use strict';
     if (!window.GeoFSV4Core || !window.GeoFSV4Design) { console.error('[GeoFS-V4.0_Autothrottle] Missing dependency'); return; }
     function main () {
+        const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
         let previousOpState = null;
         function releaseOpSync() {
             if (!geofs.autothrottle.opSyncActive) return;
@@ -158,7 +159,7 @@
                     $input.val(isMach ? targetVal.toFixed(6) : Math.round(targetVal));
                     
                     if (window.V40_NOTIF) {
-                        V40_NOTIF.show(`🛫 Autothrottle Engaged - Holding ${targetVal.toFixed(isMach ? 2 : 0)} ${isMach ? 'Mach' : 'Knots'}`);
+                        window.V40_NOTIF.show(`🛫 Autothrottle Engaged - Holding ${targetVal.toFixed(isMach ? 2 : 0)} ${isMach ? 'Mach' : 'Knots'}`);
                     }
                     document.dispatchEvent(new CustomEvent('V40_autothrottleStateChanged', { detail: { active: !0 } }));
                 });
@@ -194,7 +195,7 @@
                     geofs.autothrottle.on = !1;
                     
                     if (window.V40_NOTIF) {
-                        V40_NOTIF.show("🛬 Autothrottle Disengaged - Control Returned to Pilot");
+                        window.V40_NOTIF.show("🛬 Autothrottle Disengaged - Control Returned to Pilot");
                     }
                     document.dispatchEvent(new CustomEvent('V40_autothrottleStateChanged', { detail: { active: !1 } }));
                 });
@@ -371,7 +372,7 @@
                 if (!geofs.autothrottle.on) {
                     // Electrical System Dependency: Block engagement if no power.
                     if (window.failureSimulator?.fails?.electrical) {
-                        if (window.V40_NOTIF) V40_NOTIF.show("⚡ AUTOTHROTTLE OFFLINE - NO ELECTRICAL POWER");
+                        if (window.V40_NOTIF) window.V40_NOTIF.show("⚡ AUTOTHROTTLE OFFLINE - NO ELECTRICAL POWER");
                         return;
                     }
 
@@ -447,7 +448,7 @@
                     // Auto-activate OP Engines if target speed exceeds physical aircraft limits
                     if (!globalThis.isThrustActive && window.toggleThrustMode) {
                         window.toggleThrustMode();
-                        if (window.V40_NOTIF) V40_NOTIF.show(`🚀 Physical limit (${OP_LIMIT_KNOTS}kts) exceeded. OP Engines engaged.`);
+                        if (window.V40_NOTIF) window.V40_NOTIF.show(`🚀 Physical limit (${OP_LIMIT_KNOTS}kts) exceeded. OP Engines engaged.`);
                     }
                     
                     // Auto-activate Ceiling Bypass to handle extreme high-altitude atmospheric heights
@@ -560,7 +561,7 @@
                 if (geofs.autothrottle.on) {
                     // Electrical System Dependency: Immediate emergency cut if power is lost.
                     if (window.failureSimulator?.fails?.electrical) {
-                        if (window.V40_NOTIF) V40_NOTIF.show("⚡ AUTOTHROTTLE DISENGAGED - ELECTRICAL FAILURE");
+                        if (window.V40_NOTIF) window.V40_NOTIF.show("⚡ AUTOTHROTTLE DISENGAGED - ELECTRICAL FAILURE");
                         $(document).trigger("autothrottleOff");
                         return;
                     }
@@ -595,7 +596,7 @@
             handleError: (a) => {
                 console.error(a);
                 if (window.V40_NOTIF) window.V40_NOTIF.critical('Autothrottle error: disabled. Check the console for details.');
-                else ui.notification.show('Autothrottle error: disabled. Check the console for details.');
+                else window.GeoFSV4Core.notify('Autothrottle error: disabled. Check the console for details.', 'error');
                 geofs.debug.log("meatbroc autothrottle error");
                 geofs.api.removeFrameCallback(geofs.autothrottle.callbackID);
                 $(document).trigger("autothrottleOff");
@@ -667,12 +668,12 @@
             $input.val(isMach ? currentTarget.toFixed(6) : Math.round(currentTarget)); // Increased precision to maintain exact user values
 
             if (window.V40_NOTIF) {
-                V40_NOTIF.show(`🔄 Speed Mode Switched to ${isMach ? 'Mach' : 'Knots'} (${currentTarget.toFixed(isMach ? 2 : 0)} ${isMach ? 'M' : 'kts'})`);
+                window.V40_NOTIF.show(`🔄 Speed Mode Switched to ${isMach ? 'Mach' : 'Knots'} (${currentTarget.toFixed(isMach ? 2 : 0)} ${isMach ? 'M' : 'kts'})`);
             }
         }
 
         if (window.V40_NOTIF) {
-            window.V40_NOTIF.show("GeoFS-V4.0_Autothrottle v0.1.4 Loaded.");
+            window.V40_NOTIF.show("GeoFS-V4.0_Autothrottle v0.1.6 Loaded.");
         }
         console.log("[GeoFS-V4.0_Autothrottle] >> Autothrottle System Initialized.");
     }
