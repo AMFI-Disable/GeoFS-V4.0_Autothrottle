@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         GeoFS-V4.0_Autothrottle
 // @namespace    https://greasyfork.org/users/1594049
-// @version      0.1.6
-// @description  Experimental V4 port of the V3.9 native-style PID autothrottle.
+// @version      1.0.0
+// @description  Holds a selected speed in GeoFS with an automatic throttle controller. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
 // @author       AMFI-Disable
 // @icon         https://www.geo-fs.com/images/icons/favicon.ico
 // @match        https://beta.geo-fs.com/geofs.php*
@@ -673,7 +673,7 @@
         }
 
         if (window.V40_NOTIF) {
-            window.V40_NOTIF.show("GeoFS-V4.0_Autothrottle v0.1.6 Loaded.");
+            window.V40_NOTIF.show("GeoFS-V4.0_Autothrottle v1.0.0 Loaded.");
         }
         console.log("[GeoFS-V4.0_Autothrottle] >> Autothrottle System Initialized.");
     }

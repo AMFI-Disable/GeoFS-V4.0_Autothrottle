@@ -4,6 +4,15 @@ All notable changes, features, and architectural capabilities of this project ar
 
 ---
 
+## [1.0.0] - GeoFS V4.0 Release
+
+### Changed
+
+- Promote the existing GeoFS V4.0 standalone script to version 1.0.0.
+- Align the release documentation and userscript metadata with the V4.0 ecosystem.
+
+---
+
 ## [Unreleased]
 
 ### Fixed
