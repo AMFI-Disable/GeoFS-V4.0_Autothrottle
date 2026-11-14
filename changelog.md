@@ -4,16 +4,30 @@ All notable changes, features, and architectural capabilities of this project ar
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+- **Version 1.0.0 Release Preparation**: Promoted the standalone script to version 1.0.0, updated userscript metadata and notification banners to v1.0.0, and aligned documentation, version badges, and fair-play disclaimers with the GeoFS V4.0 ecosystem.
+
+---
+
+## [1.0.1] - Compatibility And Documentation
+
+### Changed
+
+- Align shared userscript metadata with the other standalone scripts.
+- Correct the documented GeoFS version compatibility.
+- Add concise localized metadata for the supported locales.
+
+---
+
 ## [1.0.0] - GeoFS V4.0 Release
 
 ### Changed
 
 - Promote the existing GeoFS V4.0 standalone script to version 1.0.0.
 - Align the release documentation and userscript metadata with the V4.0 ecosystem.
-
----
-
-## [Unreleased]
 
 ### Fixed
 

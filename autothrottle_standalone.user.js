@@ -1,9 +1,110 @@
 // ==UserScript==
 // @name         GeoFS-V4.0_Autothrottle
+// @name:vi           GeoFS-V4.0_Ga-Tự-Động
+// @name:zh-CN        GeoFS-V4.0_自动油门
+// @name:zh-TW        GeoFS-V4.0_自動油門
+// @name:ja           GeoFS-V4.0_オートスロットル
+// @name:ko           GeoFS-V4.0_자동-조절
+// @name:fr           GeoFS-V4.0_Auto-Manette
+// @name:de           GeoFS-V4.0_Autothrottle
+// @name:es           GeoFS-V4.0_Acelerador-Automático
+// @name:pt-BR        GeoFS-V4.0_Acelerador-Automático
+// @name:pt-PT        GeoFS-V4.0_Acelerador-Automático
+// @name:ru           GeoFS-V4.0_Автомат-Тяги
+// @name:ar           GeoFS-V4.0_خنق-تلقائي
+// @name:tr           GeoFS-V4.0_Otomatik-Gaz-Kelebeği
+// @name:id           GeoFS-V4.0_Pembatasan-Otomatis
+// @name:th           GeoFS-V4.0_คันเร่งอัตโนมัติ
+// @name:pl           GeoFS-V4.0_Automatyczna-Przepustnica
+// @name:nl           GeoFS-V4.0_Autothrottle
+// @name:it           GeoFS-V4.0_Automanetta
+// @name:sv           GeoFS-V4.0_Autothrottle
+// @name:da           GeoFS-V4.0_Autothrottle
+// @name:fi           GeoFS-V4.0_Automaattinen-Kaasutin
+// @name:nb           GeoFS-V4.0_Autothrottle
+// @name:cs           GeoFS-V4.0_Autothrottle
+// @name:hu           GeoFS-V4.0_Automatikus-Fojtószelep
+// @name:ro           GeoFS-V4.0_Autoaccelerare
+// @name:uk           GeoFS-V4.0_Автодросель
+// @name:hi           GeoFS-V4.0_ऑटोथ्रोटल
+// @name:bn           GeoFS-V4.0_অটোথ্রটল
+// @name:fa           GeoFS-V4.0_گاز-خودکار
+// @name:he           GeoFS-V4.0_מצערת-אוטומטית
+// @name:ms           GeoFS-V4.0_Autothrottle
+// @name:fil          GeoFS-V4.0_Autothrottle
+// @name:el           GeoFS-V4.0_Αυτόματο-Γκάζι
+// @name:hr           GeoFS-V4.0_Automatski-Gas
+// @name:sk           GeoFS-V4.0_Autothrottle
+// @name:bg           GeoFS-V4.0_Автодросел
+// @name:sr           GeoFS-V4.0_Аутотхроттле
+// @name:lt           GeoFS-V4.0_Automatinis-Droselis
+// @name:lv           GeoFS-V4.0_Autodrosele
+// @name:et           GeoFS-V4.0_Automaatne-Drosselklapp
+// @name:sl           GeoFS-V4.0_Samodejni-Plin
+// @name:ca           GeoFS-V4.0_Autoaccelerador
+// @name:af           GeoFS-V4.0_Autothrottle
+// @name:sw           GeoFS-V4.0_Autothrottle
+// @name:zu           GeoFS-V4.0_I-Autothrottle
+// @name:mn           GeoFS-V4.0_Автомат-Тохируулагч
+// @name:my           GeoFS-V4.0_Autothrottle
+// @name:km           GeoFS-V4.0_ស្វ័យប្រវត្តិ
+// @name:lo           GeoFS-V4.0_Autothrottle
+// @name:ur           GeoFS-V4.0_آٹو-تھروٹل
 // @namespace    https://greasyfork.org/users/1594049
-// @version      1.0.0
+// @version      1.0.1
 // @description  Holds a selected speed in GeoFS with an automatic throttle controller. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:vi    Bộ điều khiển tự động dựa trên PID chính xác cho GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:zh-CN 用于 GeoFS 的基于 PID 的精密自动油门. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:zh-TW 用於 GeoFS 的基於 PID 的精密自動油門. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:ja    GeoFS 用の高精度 PID ベースのオートスロットル. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:ko    GeoFS용 정밀 PID 기반 자동 조절. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:fr    Autothrottle de précision basé sur PID pour GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:de    Präzises PID-basiertes Autothrottle für GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:es    Acelerador automático basado en PID de precisión para GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:pt-BR Autothrottle baseado em PID de precisão para GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:pt-PT Autothrottle baseado em PID de precisão para GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:ru    Прецизионный автоматический дроссель на основе ПИД-регулятора для GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:ar    خنق تلقائي دقيق قائم على PID لـ GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:tr    GeoFS için Hassas PID Tabanlı Otomatik Kısma. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:id    Autothrottle berbasis PID presisi untuk GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:th    GeoFS-V4.0 · คันเร่งอัตโนมัติ. © 2026 AMFI Disable. Part of the GeoFS V4.0_Ecosystem.
+// @description:pl    Precyzyjna automatyczna przepustnica oparta na PID dla GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:nl    Precisie-PID-gebaseerde Autothrottle voor GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:it    Autothrottle di precisione basato su PID per GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:sv    Precision PID-baserad Autothrottle för GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:da    Præcisions PID-baseret Autothrottle til GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:fi    Tarkka PID-pohjainen automaattinen kaasutin GeoFS:lle. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:nb    Presisjons PID-basert autothrottle for GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:cs    Přesný autothrottle založený na PID pro GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:hu    Precíziós PID-alapú automata fojtószelep a GeoFS-hez. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:ro    Autothrottle de precizie bazat pe PID pentru GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:uk    Precision Autothrottle на основі PID для GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:hi    जियोएफएस के लिए सटीक पीआईडी-आधारित ऑटोथ्रोटल. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:bn    জিওএফএস-এর জন্য যথার্থ PID-ভিত্তিক অটোথ্রটল. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:fa    گاز خودکار مبتنی بر PID دقیق برای GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:he    Autothrottle מבוסס PID מדויק עבור GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:ms    Autothrottle berasaskan PID ketepatan untuk GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:fil   Precision PID-based Autothrottle para sa GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:el    Αυτόματο γκάζι με βάση PID ακριβείας για GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:hr    Precizni autothrottle temeljen na PID-u za GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:sk    Presný Autothrottle založený na PID pre GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:bg    Прецизен PID базиран Autothrottle за GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:sr    Прецизни ПИД-базирани аутоматски гас за ГеоФС. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:lt    Tikslus PID pagrįstas automatinis droselis, skirtas GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:lv    Precīza, uz PID balstīta automātiskā drosele GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:et    Täpne PID-põhine automaatne gaasipedaal GeoFS-i jaoks. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:sl    Precision Autothrottle na osnovi PID za GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:ca    Autoaccelerador basat en PID de precisió per a GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:af    Presisie PID-gebaseerde Autothrottle vir GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:sw    Precision PID-msingi Autothrottle kwa GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:zu    I-Precision PID-based Autothrottle ye-GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:mn    GeoFS-д зориулсан нарийн PID-д суурилсан автомат тохируулагч. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:my    GeoFS-V4.0 · Autothrottle. © 2026 AMFI Disable. Part of the GeoFS V4.0_Ecosystem.
+// @description:km    Autothrottle ដែលមានមូលដ្ឋានលើភាពជាក់លាក់ PID សម្រាប់ GeoFS ។ លក្ខណៈ​ពិសេស​នៃ​បន្ទះ glassmorphic បង្រួម និង​របៀប​ចុះចត​ថយក្រោយ​ដោយ​ស្វ័យ​ប្រវត្តិ. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:lo    Autothrottle ທີ່ອີງໃສ່ Precision PID ສໍາລັບ GeoFS. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
+// @description:ur    جیو ایف ایس کے لیے پی آئی ڈی پر مبنی آٹو تھروٹل۔ ایک کمپیکٹ گلاس مورفک پینل اور آٹو ریٹارڈ لینڈنگ موڈ کی خصوصیات ہیں۔. © 2026 AMFI-Disable. Part of the GeoFS-V4.0_Ecosystem.
 // @author       AMFI-Disable
+// @homepageURL  https://sites.google.com/view/geofs-v40-ecosystem/home
 // @icon         https://www.geo-fs.com/images/icons/favicon.ico
 // @match        https://beta.geo-fs.com/geofs.php*
 // @match        https://www.geo-fs.com/geofs.php*
@@ -12,6 +113,13 @@
 // @grant        none
 // @run-at       document-idle
 // @license      MIT
+// @copyright    2026, AMFI-Disable (https://greasyfork.org/users/1594049)
+// @compatible   chrome
+// @compatible   firefox
+// @compatible   edge
+// @compatible   safari
+// @compatible   brave
+// @compatible   opera
 // ==/UserScript==
 (() => {
     'use strict';
@@ -673,7 +781,7 @@
         }
 
         if (window.V40_NOTIF) {
-            window.V40_NOTIF.show("GeoFS-V4.0_Autothrottle v1.0.0 Loaded.");
+            window.V40_NOTIF.show("GeoFS-V4.0_Autothrottle v1.0.1 Loaded.");
         }
         console.log("[GeoFS-V4.0_Autothrottle] >> Autothrottle System Initialized.");
     }
